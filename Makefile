@@ -1,5 +1,5 @@
 node_modules: package.json package-lock.json
-	npm install
+	npm install --only=production
 
-lambda.zip: node_modules config.js index.js
-	zip -r lambda.zip node_modules config.js index.js 
+lambda.zip: node_modules *.js
+	zip -r lambda.zip node_modules *.js

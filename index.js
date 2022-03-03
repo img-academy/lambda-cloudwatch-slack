@@ -4,6 +4,7 @@ var https = require('https');
 var config = require('./config');
 var _ = require('lodash');
 var hookUrl;
+var customBeanstalk = require('./beanstalk');
 
 var baseSlackMessage = {}
 
@@ -40,6 +41,12 @@ var postMessage = function(message, callback) {
 };
 
 var handleElasticBeanstalk = function(event, context) {
+  const customMessage = customBeanstalk.handler(event, context);
+  if (customMessage) {
+    return _.merge(customMessage, baseSlackMessage);
+  } else if (customMessage === null) {
+    return;
+  }
   var timestamp = (new Date(event.Records[0].Sns.Timestamp)).getTime()/1000;
   var subject = event.Records[0].Sns.Subject || "AWS Elastic Beanstalk Notification";
   var message = event.Records[0].Sns.Message;
