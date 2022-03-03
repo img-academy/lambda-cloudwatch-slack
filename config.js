@@ -5,7 +5,7 @@ module.exports = {
   services: {
     elasticbeanstalk: {
       // text in the sns message or topicname to match on to process this service type
-      match_text: "ElasticBeanstalkNotifications"
+      match_text: "arn:aws:sns:us-east-2:794263327068:cloudwatch-alarms:21289d3a-2746-4919-9f5c-80768d6e604d",
     },
     cloudwatch: {     
     },
