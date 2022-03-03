@@ -69,6 +69,7 @@ var handleElasticBeanstalk = function(event, context) {
   if (stateYellow != -1 || stateDegraded != -1 || stateInfo != -1 || removedInstance != -1 || addingInstance != -1 || abortedOperation != -1 || abortedDeployment != -1) {
     color = "warning";
   }
+  var environment = message.indexOf("Environment: production") ? "Production" : "Staging";
 
   var slackMessage = {
     text: "*" + subject + "*",
@@ -76,7 +77,8 @@ var handleElasticBeanstalk = function(event, context) {
       {
         "fields": [
           { "title": "Subject", "value": event.Records[0].Sns.Subject, "short": false},
-          { "title": "Message", "value": message, "short": false}
+          { "title": "Message", "value": message, "short": false},
+          { "title": "Environment", "value": environment, "short": false},
         ],
         "color": color,
         "ts":  timestamp
