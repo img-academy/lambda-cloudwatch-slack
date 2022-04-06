@@ -378,13 +378,13 @@ var processEvent = function(event, context) {
     console.log("processing codepipeline notification");
     slackMessage = handleCodePipeline(event,context)
   }
-  else if(eventSubscriptionArn.indexOf(config.services.elasticbeanstalk.match_text) > -1 || eventSnsSubject.indexOf(config.services.elasticbeanstalk.match_text) > -1 || eventSnsMessageRaw.indexOf(config.services.elasticbeanstalk.match_text) > -1){
-    console.log("processing elasticbeanstalk notification");
-    slackMessage = handleElasticBeanstalk(event,context)
-  }
   else if(eventSnsMessage && 'AlarmName' in eventSnsMessage && 'AlarmDescription' in eventSnsMessage){
     console.log("processing cloudwatch notification");
     slackMessage = handleCloudWatch(event,context);
+  }
+  else if(eventSubscriptionArn.indexOf(config.services.elasticbeanstalk.match_text) > -1 || eventSnsSubject.indexOf(config.services.elasticbeanstalk.match_text) > -1 || eventSnsMessageRaw.indexOf(config.services.elasticbeanstalk.match_text) > -1){
+    console.log("processing elasticbeanstalk notification");
+    slackMessage = handleElasticBeanstalk(event,context)
   }
   else if(eventSubscriptionArn.indexOf(config.services.codedeploy.match_text) > -1 || eventSnsSubject.indexOf(config.services.codedeploy.match_text) > -1 || eventSnsMessageRaw.indexOf(config.services.codedeploy.match_text) > -1){
     console.log("processing codedeploy notification");
