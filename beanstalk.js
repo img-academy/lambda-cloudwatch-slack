@@ -34,7 +34,8 @@ exports.handler = function(event, context) {
     color = "warning";
   }
 
-  const envIsProduction = message.indexOf("Environment: production") > 0;
+  const envRegex = /Environment:\s((\w|-)+)/g;
+  const env = [...message.matchAll(envRegex)][0][1];
   const healthRegex = /.+from\s(\w+)\sto\s(\w+)\..+/g;
   const healths = [...subject.matchAll(healthRegex)][0];
   const transitions = healthTransitions(subject);
@@ -48,7 +49,7 @@ exports.handler = function(event, context) {
               { title: "Name", value: "Environment health transitioned", short: false },
               { title: "From", value: transitions[0], short: true },
               { title: "To", value: transitions[1], short: true },
-              { title: "Environment", value: envIsProduction ? "Production" : "Staging", short: false },
+              { title: "Environment", value: env, short: false },
             ],
             color,
             ts: timestamp,
